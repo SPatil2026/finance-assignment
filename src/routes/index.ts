@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { Role } from "@prisma/client";
 import authRouter from "./auth/auth.routes";
+import userRouter from "./users/user.routes";
+import recordRouter from "./records/record.routes";
 import { verifyToken } from "../utils/token-manager";
 import { roleCheck } from "../middleware/roleCheck";
 
@@ -19,14 +21,14 @@ appRouter.use((req, res, next) => {
 
 appRouter.use("/api/auth", authRouter);
 
-// ── Protected routes (to be added as modules are built) ───────
+// ── ADMIN only ────────────────────────────────────────────────
+appRouter.use("/api/users", roleCheck(Role.ADMIN), userRouter);
+
+// ── Coming next ───────────────────────────────────────────────
+// ANALYST and ADMIN (mutations further restricted inside router)
+appRouter.use("/api/records", roleCheck(Role.ANALYST), recordRouter);
+
 // All authenticated users (VIEWER / ANALYST / ADMIN)
 // appRouter.use("/api/dashboard", dashboardRouter);
-
-// ANALYST and ADMIN
-// appRouter.use("/api/records", roleCheck([Role.ANALYST, Role.ADMIN]), recordsRouter);
-
-// ADMIN only
-// appRouter.use("/api/users", roleCheck([Role.ADMIN]), usersRouter);
 
 export default appRouter;
