@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { createToken } from "../utils/token-manager";
 import { COOKIE_NAME } from "../constants/constants";
-import { registerUser, loginUser, getMe } from "../services/auth.service";
+import { registerUser, loginUser, getMe } from "../service/auth.service";
 
 const COOKIE_OPTIONS = {
   httpOnly: true,
