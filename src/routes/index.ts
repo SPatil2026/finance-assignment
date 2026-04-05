@@ -3,6 +3,7 @@ import { Role } from "@prisma/client";
 import authRouter from "./auth/auth.routes";
 import userRouter from "./users/user.routes";
 import recordRouter from "./records/record.routes";
+import dashboardRouter from "./dashboard/dashboard.routes";
 import { verifyToken } from "../utils/token-manager";
 import { roleCheck } from "../middleware/roleCheck";
 
@@ -28,7 +29,7 @@ appRouter.use("/api/users", roleCheck(Role.ADMIN), userRouter);
 // ANALYST and ADMIN (mutations further restricted inside router)
 appRouter.use("/api/records", roleCheck(Role.ANALYST), recordRouter);
 
-// All authenticated users (VIEWER / ANALYST / ADMIN)
-// appRouter.use("/api/dashboard", dashboardRouter);
+// ── All authenticated users (VIEWER / ANALYST / ADMIN) ──────
+ appRouter.use("/api/dashboard", dashboardRouter);
 
 export default appRouter;
