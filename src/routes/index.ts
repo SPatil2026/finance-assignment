@@ -22,14 +22,13 @@ appRouter.use((req, res, next) => {
 
 appRouter.use("/api/auth", authRouter);
 
-// ── ADMIN only ────────────────────────────────────────────────
+// ADMIN only
 appRouter.use("/api/users", roleCheck(Role.ADMIN), userRouter);
 
-// ── Coming next ───────────────────────────────────────────────
 // ANALYST and ADMIN (mutations further restricted inside router)
 appRouter.use("/api/records", roleCheck(Role.ANALYST), recordRouter);
 
-// ── All authenticated users (VIEWER / ANALYST / ADMIN) ──────
- appRouter.use("/api/dashboard", dashboardRouter);
+// All authenticated users (VIEWER / ANALYST / ADMIN)
+appRouter.use("/api/dashboard", dashboardRouter);
 
 export default appRouter;

@@ -16,7 +16,7 @@ const buildDateWhere = (filter: DateRangeFilter): Prisma.FinancialRecordWhereInp
   }),
 });
 
-// ── Summary ─────────────────────────────────────────────────────
+// Summary
 export const getSummary = async (filter: DateRangeFilter) => {
   const where = buildDateWhere(filter);
 
@@ -43,7 +43,7 @@ export const getSummary = async (filter: DateRangeFilter) => {
   };
 };
 
-// ── Category-wise totals ────────────────────────────────────────
+// Category-wise totals
 export const getCategoryTotals = async (filter: DateRangeFilter & { type?: RecordType }) => {
   const where: Prisma.FinancialRecordWhereInput = {
     ...buildDateWhere(filter),
@@ -64,7 +64,7 @@ export const getCategoryTotals = async (filter: DateRangeFilter & { type?: Recor
   }));
 };
 
-// ── Monthly trends ──────────────────────────────────────────────
+// Monthly trends
 export const getMonthlyTrends = async (year: number) => {
   // Use raw SQL for date_trunc grouping (not natively supported in Prisma groupBy)
   const rows = await prisma.$queryRaw<
@@ -95,7 +95,7 @@ export const getMonthlyTrends = async (year: number) => {
   return Object.values(monthMap);
 };
 
-// ── Recent activity ─────────────────────────────────────────────
+// Recent activity
 export const getRecentRecords = async (limit: number) => {
   return prisma.financialRecord.findMany({
     where: { isDeleted: false },
